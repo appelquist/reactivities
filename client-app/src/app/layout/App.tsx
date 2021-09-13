@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Container } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import NavBar from './NavBar';
 import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashboard';
 import LoadingComponent from './LoadingComponent';
@@ -10,7 +10,6 @@ import { actionCreators, State } from '../store';
 
 
 function App() {
-  const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch();
   const { fetchActivities } = bindActionCreators(actionCreators, dispatch);
