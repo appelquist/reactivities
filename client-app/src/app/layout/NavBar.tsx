@@ -1,11 +1,14 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Container, Menu } from 'semantic-ui-react'
+import { actionCreators } from '../store';
 
-interface Props {
-    openForm: () => void;
-}
+function NavBar() {
 
-function NavBar({ openForm }: Props) {
+  const dispatch = useDispatch();
+  const { openEditMode } = bindActionCreators(actionCreators, dispatch);
+
     return (
         <Menu inverted fixed='top'>
             <Container>
@@ -15,7 +18,7 @@ function NavBar({ openForm }: Props) {
                 </Menu.Item>
                 <Menu.Item name="Activities" />
                 <Menu.Item>
-                    <Button onClick={openForm} positive content="Create Activity" />
+                    <Button onClick={() => openEditMode()} positive content="Create Activity" />
                 </Menu.Item>
             </Container>
         </Menu>

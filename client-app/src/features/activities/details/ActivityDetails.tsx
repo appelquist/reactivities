@@ -1,13 +1,17 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Card, Image } from 'semantic-ui-react';
-import { Activity } from '../../../app/models/activity';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { actionCreators, State } from '../../../app/store';
 
-interface Props {
-    activity: Activity;
-    cancelSelectActivity: () => void;
-    openForm: (id: string) => void;
-}
-function ActivityDetails({ activity, cancelSelectActivity, openForm }: Props) {
+function ActivityDetails() {
+    const dispatch = useDispatch();
+    const { cancelSelectActivity, openEditMode } = bindActionCreators(actionCreators, dispatch);
+    const { selectedActivity: activity } = useSelector((state: State) => state.activities);
+
+    if (!activity) return <LoadingComponent />;
+
     return (
         <Card fluid>
             <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
@@ -22,7 +26,7 @@ function ActivityDetails({ activity, cancelSelectActivity, openForm }: Props) {
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths='2'>
-                    <Button onClick={() => openForm(activity.id)} basic color='blue' content="Edit" />
+                    <Button onClick={() => openEditMode(activity.id)} basic color='blue' content="Edit" />
                     <Button onClick={cancelSelectActivity} basic color='grey' content="Cancel" />
                 </Button.Group>
             </Card.Content>

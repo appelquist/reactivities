@@ -1,16 +1,18 @@
 import React, { ChangeEvent, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, Form, Segment } from 'semantic-ui-react';
-import { Activity } from '../../../app/models/activity';
+import { actionCreators, State } from '../../../app/store';
 
 interface Props {
-    activity: Activity | undefined;
-    closeForm: () => void;
-    createOrEdit: (activity: Activity) => void;
     submitting: boolean;
 }
 
-function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, submitting }: Props) {
+function ActivityForm({ submitting }: Props) {
 
+    const dispatch = useDispatch();
+    const { closeEditMode } = bindActionCreators(actionCreators, dispatch); 
+    const { selectedActivity } = useSelector((state: State) => state.activities);
     const initialState = selectedActivity ?? {
         id: '',
         title: '',
@@ -24,7 +26,6 @@ function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, sub
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
-        createOrEdit(activity);
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
@@ -42,7 +43,7 @@ function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, sub
                 <Form.Input placeholder='City' value={activity.city} name='city' onChange={handleInputChange} />
                 <Form.Input placeholder='Venue' value={activity.venue} name='venue' onChange={handleInputChange} />
                 <Button loading={submitting} floated='right' positive type='submit' content='Submit' onChange={handleInputChange} />
-                <Button onClick={closeForm} floated='right' type='button' content='Cancel' onChange={handleInputChange} />
+                <Button onClick={closeEditMode} floated='right' type='button' content='Cancel' onChange={handleInputChange} />
             </Form>
         </Segment>
     );
