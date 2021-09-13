@@ -4,15 +4,12 @@ import { bindActionCreators } from 'redux';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { actionCreators, State } from '../../../app/store';
 
-interface Props {
-    submitting: boolean;
-}
-
-function ActivityForm({ submitting }: Props) {
+function ActivityForm() {
 
     const dispatch = useDispatch();
-    const { closeEditMode } = bindActionCreators(actionCreators, dispatch); 
-    const { selectedActivity } = useSelector((state: State) => state.activities);
+    const { closeEditMode, createActivity, editActivity } = bindActionCreators(actionCreators, dispatch); 
+    const { selectedActivity, submitting } = useSelector((state: State) => state.activities);
+
     const initialState = selectedActivity ?? {
         id: '',
         title: '',
@@ -26,6 +23,11 @@ function ActivityForm({ submitting }: Props) {
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
+        if (activity.id === '') {
+            createActivity(activity);
+        } else {
+            editActivity(activity);
+        }
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {

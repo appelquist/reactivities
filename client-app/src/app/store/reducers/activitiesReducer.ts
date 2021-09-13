@@ -1,42 +1,66 @@
-import agent from "../../api/agent";
 import { ActivitiesState } from "../../models/ActivitiesState";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
 
-const initialState : ActivitiesState = {
+const initialState: ActivitiesState = {
     activities: [],
     selectedActivity: undefined,
-    loading: false,
+    fetching: false,
+    submitting: false,
     editMode: false,
 }
 
-const activitiesReducer = (state: ActivitiesState = initialState, action: Action )=> {
+const activitiesReducer = (state: ActivitiesState = initialState, action: Action) => {
     switch (action.type) {
         case ActionType.FETCH_ACTIVITIES_PENDING:
             return {
                 ...state,
-                loading: true
+                fetching: true
             }
-        case ActionType.FETCH_ACTIVITIES_SUCCESS: 
+        case ActionType.FETCH_ACTIVITIES_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                fetching: false,
                 activities: action.payload
             }
         case ActionType.FETCH_ACTIVITIES_ERROR:
             return {
                 ...state,
-                loading: false,
+                fetching: false,
                 error: action.payload
             }
         case ActionType.SELECT_ACTIVITY:
-            return {...state, selectedActivity: state.activities.find(a => a.id === action.payload)}
+            return { ...state, selectedActivity: state.activities.find(a => a.id === action.payload), editMode: false }
         case ActionType.CANCEL_SELECT_ACTIVITY:
-            return {...state, selectedActivity: undefined}
+            return { ...state, selectedActivity: undefined }
+        case ActionType.CREATE_ACTIVITY_PENDING:
+            return { ...state, submitting: true }
+        case ActionType.CREATE_ACTIVITY_SUCCESS:
+            return { ...state, activities: [...state.activities, action.payload], submitting: false }
+        case ActionType.CREATE_ACTIVITY_ERROR:
+            return { ...state, submitting: false }
+        case ActionType.EDIT_ACTIVITY_PENDING:
+            return { ...state, submitting: true }
+        case ActionType.EDIT_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                activities: [...state.activities.filter(a => a.id !== action.payload.id), action.payload],
+                submitting: false,
+                editMode: false,
+                selectedActivity: action.payload,
+            }
+        case ActionType.EDIT_ACTIVITY_ERROR:
+            return { ...state, submitting: false }
+        case ActionType.DELETE_ACTIVITY_PENDING:
+            return { ...state, submitting: true }
+        case ActionType.DELETE_ACTIVITY_SUCCESS:
+            return { ...state, activities: state.activities.filter(a => a.id !== action.payload), submitting: false }
+        case ActionType.DELETE_ACTIVITY_ERROR:
+            return { ...state, submitting: false }
         case ActionType.OPEN_EDIT_MODE:
-            return {...state, editMode: true}
+            return { ...state, editMode: true }
         case ActionType.CLOSE_EDIT_MODE:
-            return {...state, editMode: false}
+            return { ...state, editMode: false }
         default: {
             return state;
         }

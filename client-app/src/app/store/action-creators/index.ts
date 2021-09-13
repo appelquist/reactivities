@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { Action } from "../actions/index";
 import { Activity } from "../../models/activity";
 import agent from "../../api/agent";
+import { v4 as uuid } from 'uuid';
 
 export const getAllActivities = () => {
     return (dispatch: Dispatch<Action>) => {
@@ -94,12 +95,73 @@ export const fetchActivities = () => {
                 type: ActionType.FETCH_ACTIVITIES_SUCCESS,
                 payload: activities
             });
-        } catch(error) {
+        } catch (error) {
             dispatch({
                 type: ActionType.FETCH_ACTIVITIES_ERROR,
                 payload: "Error"
             });
         }
 
+    }
+}
+
+export const createActivity = (activity: Activity) => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.CREATE_ACTIVITY_PENDING,
+        });
+        activity.id = uuid();
+        try {
+            await agent.Activities.create(activity)
+            dispatch({
+                type: ActionType.CREATE_ACTIVITY_SUCCESS,
+                payload: activity
+            });
+        } catch (error) {
+            dispatch({
+                type: ActionType.CREATE_ACTIVITY_ERROR,
+                payload: "Error"
+            });
+        }
+    }
+}
+
+export const editActivity = (activity: Activity) => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.EDIT_ACTIVITY_PENDING,
+        });
+        try {
+            await agent.Activities.update(activity);
+            dispatch({
+                type: ActionType.EDIT_ACTIVITY_SUCCESS,
+                payload: activity
+            });
+        } catch (error) {
+            dispatch({
+                type: ActionType.EDIT_ACTIVITY_ERROR,
+                payload: "Error"
+            });
+        }
+    }
+}
+
+export const deleteActivity = (id: string) => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.DELETE_ACTIVITY_PENDING,
+        });
+        try {
+            await agent.Activities.delete(id);
+            dispatch({
+                type: ActionType.DELETE_ACTIVITY_SUCCESS,
+                payload: id
+            });
+        } catch (error) {
+            dispatch({
+                type: ActionType.DELETE_ACTIVITY_ERROR,
+                payload: "Error"
+            });
+        }
     }
 }

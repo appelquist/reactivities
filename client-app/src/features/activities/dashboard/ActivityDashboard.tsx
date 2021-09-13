@@ -6,11 +6,7 @@ import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
 
-interface Props {
-    submitting: boolean;
-}
-
-function ActivityDashBoard({ submitting }: Props) {
+function ActivityDashBoard() {
 
     const { selectedActivity } = useSelector((state: State) => state.activities);
     const { activities, editMode } = useSelector((state: State) => state.activities);
@@ -18,19 +14,14 @@ function ActivityDashBoard({ submitting }: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
-                <ActivityList 
-                    activities={activities}
-                    submitting={submitting}
-                />
+                <ActivityList activities={activities}/>
             </Grid.Column>
             <Grid.Column width='6'>
                 {selectedActivity && !editMode &&
                     <ActivityDetails
                     />}
                 {editMode && (
-                    <ActivityForm 
-                        submitting={submitting}
-                        />
+                    <ActivityForm />
                 )}
             </Grid.Column>
         </Grid>

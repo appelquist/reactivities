@@ -3,6 +3,7 @@ import { Activity } from "./activity";
 export interface ActivitiesState {
     activities: Activity[];
     selectedActivity: Activity | undefined;
-    loading: boolean;
+    fetching: boolean;
     editMode: boolean;
+    submitting: boolean;
 }
