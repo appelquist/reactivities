@@ -1,10 +1,6 @@
 import { Activity } from '../../models/activity';
 import { ActionType } from '../action-types';
 
-interface GetActivitiesAction {
-    type: ActionType.GET_ALL_ACTIVITIES;
-}
-
 interface SelectActivtyAction {
     type: ActionType.SELECT_ACTIVITY;
     payload: string | undefined;
@@ -79,7 +75,7 @@ interface DeleteActivityErrorAction {
 }
 
 
-export type Action = GetActivitiesAction | SelectActivtyAction | CancelSelectActivityAction |
+export type Action = SelectActivtyAction | CancelSelectActivityAction |
     OpenEditModeAction | CloseEditModeAction | FetchActivitiesSuccessAction | FetchActivitiesPendingAction |
     FetchActivitiesErrorAction | CreateActivityPendingAction | CreateActivitySuccessAction |
     CreateActivityErrorAction | EditActivityPendingAction | EditActivitySuccessAction | EditActivityErrorAction |

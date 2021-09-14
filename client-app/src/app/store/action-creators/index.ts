@@ -5,14 +5,6 @@ import { Activity } from "../../models/activity";
 import agent from "../../api/agent";
 import { v4 as uuid } from 'uuid';
 
-export const getAllActivities = () => {
-    return (dispatch: Dispatch<Action>) => {
-        dispatch({
-            type: ActionType.GET_ALL_ACTIVITIES
-        });
-    }
-}
-
 export const selectActivity = (id?: string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
@@ -126,7 +118,7 @@ export const createActivity = (activity: Activity) => {
     }
 }
 
-export const editActivity = (activity: Activity) => {
+export const updateActivity = (activity: Activity) => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionType.EDIT_ACTIVITY_PENDING,

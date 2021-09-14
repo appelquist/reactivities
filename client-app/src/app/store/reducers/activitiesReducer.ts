@@ -30,13 +30,22 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
                 error: action.payload
             }
         case ActionType.SELECT_ACTIVITY:
-            return { ...state, selectedActivity: state.activities.find(a => a.id === action.payload), editMode: false }
+            return {
+                ...state,
+                selectedActivity: state.activities.find(a => a.id === action.payload),
+                editMode: false
+            }
         case ActionType.CANCEL_SELECT_ACTIVITY:
             return { ...state, selectedActivity: undefined }
         case ActionType.CREATE_ACTIVITY_PENDING:
             return { ...state, submitting: true }
         case ActionType.CREATE_ACTIVITY_SUCCESS:
-            return { ...state, activities: [...state.activities, action.payload], submitting: false }
+            return {
+                ...state,
+                activities: [...state.activities, action.payload],
+                submitting: false,
+                selectedActivity: action.payload
+            }
         case ActionType.CREATE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
         case ActionType.EDIT_ACTIVITY_PENDING:
@@ -54,7 +63,11 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
         case ActionType.DELETE_ACTIVITY_PENDING:
             return { ...state, submitting: true }
         case ActionType.DELETE_ACTIVITY_SUCCESS:
-            return { ...state, activities: state.activities.filter(a => a.id !== action.payload), submitting: false }
+            return {
+                ...state,
+                activities: state.activities.filter(a => a.id !== action.payload),
+                submitting: false
+            }
         case ActionType.DELETE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
         case ActionType.OPEN_EDIT_MODE:

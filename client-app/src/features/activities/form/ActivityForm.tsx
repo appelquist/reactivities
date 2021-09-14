@@ -7,7 +7,7 @@ import { actionCreators, State } from '../../../app/store';
 function ActivityForm() {
 
     const dispatch = useDispatch();
-    const { closeEditMode, createActivity, editActivity } = bindActionCreators(actionCreators, dispatch); 
+    const { closeEditMode, createActivity, updateActivity } = bindActionCreators(actionCreators, dispatch); 
     const { selectedActivity, submitting } = useSelector((state: State) => state.activities);
 
     const initialState = selectedActivity ?? {
@@ -26,7 +26,7 @@ function ActivityForm() {
         if (activity.id === '') {
             createActivity(activity);
         } else {
-            editActivity(activity);
+            updateActivity(activity);
         }
     }
 
