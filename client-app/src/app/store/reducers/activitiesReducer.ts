@@ -6,7 +6,7 @@ import { Action } from "../actions";
 const initialState: ActivitiesState = {
     activities: [],
     selectedActivity: undefined,
-    fetching: false,
+    fetching: true,
     submitting: false,
     editMode: false,
 }
