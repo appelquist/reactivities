@@ -3,7 +3,7 @@ import { ActionType } from '../action-types';
 
 interface SelectActivtyAction {
     type: ActionType.SELECT_ACTIVITY;
-    payload: string | undefined;
+    payload: string;
 }
 
 interface CancelSelectActivityAction {

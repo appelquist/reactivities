@@ -1,5 +1,5 @@
-import { setSyntheticLeadingComments } from "typescript";
 import { ActivitiesState } from "../../models/ActivitiesState";
+import { Activity } from "../../models/activity";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
 
@@ -43,9 +43,12 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
         case ActionType.CREATE_ACTIVITY_SUCCESS:
             return {
                 ...state,
-                activities: [...state.activities, action.payload],
+                activities: [...state.activities, action.payload].sort((a: Activity, b: Activity) => {
+                    return +new Date(b.date) - +new Date(a.date)
+                }),
                 submitting: false,
-                selectedActivity: action.payload
+                selectedActivity: action.payload,
+                editMode: false
             }
         case ActionType.CREATE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
@@ -54,7 +57,9 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
         case ActionType.EDIT_ACTIVITY_SUCCESS:
             return {
                 ...state,
-                activities: [...state.activities.filter(a => a.id !== action.payload.id), action.payload],
+                activities: [...state.activities.filter(a => a.id !== action.payload.id), action.payload].sort((a: Activity, b: Activity) => {
+                    return +new Date(b.date) - +new Date(a.date)
+                }),
                 submitting: false,
                 editMode: false,
                 selectedActivity: action.payload,

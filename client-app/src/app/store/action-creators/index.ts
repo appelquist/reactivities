@@ -5,7 +5,7 @@ import { Activity } from "../../models/activity";
 import agent from "../../api/agent";
 import { v4 as uuid } from 'uuid';
 
-export const selectActivity = (id?: string) => {
+export const selectActivity = (id: string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionType.SELECT_ACTIVITY,
@@ -83,9 +83,12 @@ export const fetchActivities = () => {
             activities.forEach(activity => {
                 activity.date = activity.date.split('T')[0];
             });
+            const sortedActivities = activities.sort((a: Activity, b: Activity) => {
+                return +new Date(b.date) - +new Date(a.date)
+            })
             dispatch({
                 type: ActionType.FETCH_ACTIVITIES_SUCCESS,
-                payload: activities
+                payload: sortedActivities
             });
         } catch (error) {
             dispatch({
