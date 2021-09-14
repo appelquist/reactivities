@@ -2,19 +2,14 @@ import React, { SyntheticEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
-import { Activity } from '../../../app/models/activity';
 import { actionCreators, State } from '../../../app/store';
 
-interface Props {
-    activities: Activity[];
-}
-
-function ActivityList({ activities }: Props) {
+function ActivityList() {
     const [target, setTarget] = useState('');
 
     const dispatch = useDispatch();
     const { selectActivity, deleteActivity } = bindActionCreators(actionCreators, dispatch);
-    const { submitting } = useSelector((state: State) => state.activities);
+    const { submitting, activities } = useSelector((state: State) => state.activities);
 
     function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);
