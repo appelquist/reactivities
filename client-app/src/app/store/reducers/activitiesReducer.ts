@@ -1,3 +1,4 @@
+import { setSyntheticLeadingComments } from "typescript";
 import { ActivitiesState } from "../../models/ActivitiesState";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
@@ -66,7 +67,8 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
             return {
                 ...state,
                 activities: state.activities.filter(a => a.id !== action.payload),
-                submitting: false
+                submitting: false,
+                selectedActivity: state.selectedActivity?.id === action.payload ? undefined : state.selectedActivity
             }
         case ActionType.DELETE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
