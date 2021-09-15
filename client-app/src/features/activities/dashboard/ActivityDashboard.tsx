@@ -1,15 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Grid } from 'semantic-ui-react'
-import { State } from '../../../app/store';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { actionCreators, State } from '../../../app/store';
 import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
 
 function ActivityDashBoard() {
 
+    const dispatch = useDispatch();
+    const { fetchActivities } = bindActionCreators(actionCreators, dispatch);
     const { selectedActivity } = useSelector((state: State) => state.activities);
-    const { editMode } = useSelector((state: State) => state.activities);
+    const { editMode, fetching } = useSelector((state: State) => state.activities);
+
+    useEffect(() => {
+        fetchActivities();
+    }, [])
+
+    if (fetching) return <LoadingComponent content='Loading app' />
 
     return (
         <Grid>
