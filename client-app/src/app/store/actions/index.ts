@@ -18,6 +18,20 @@ interface CloseEditModeAction {
     type: ActionType.CLOSE_EDIT_MODE;
 }
 
+interface FetchActivityPendingAction {
+    type: ActionType.FETCH_ACTIVITY_PENDING;
+}
+
+interface FetchActivitySuccessAction {
+    type: ActionType.FETCH_ACTIVITY_SUCCESS;
+    payload: Activity;
+}
+
+interface FetchActivityErrorAction {
+    type: ActionType.FETCH_ACTIVITY_ERROR;
+    payload: string;
+}
+
 interface FetchActivitiesPendingAction {
     type: ActionType.FETCH_ACTIVITIES_PENDING;
 }
@@ -79,4 +93,5 @@ export type Action = SelectActivtyAction | CancelSelectActivityAction |
     OpenEditModeAction | CloseEditModeAction | FetchActivitiesSuccessAction | FetchActivitiesPendingAction |
     FetchActivitiesErrorAction | CreateActivityPendingAction | CreateActivitySuccessAction |
     CreateActivityErrorAction | EditActivityPendingAction | EditActivitySuccessAction | EditActivityErrorAction |
-    DeleteActivityPendingAction | DeleteActivitySuccessAction | DeleteActivityErrorAction;
+    DeleteActivityPendingAction | DeleteActivitySuccessAction | DeleteActivityErrorAction | FetchActivityPendingAction |
+    FetchActivitySuccessAction | FetchActivityErrorAction;

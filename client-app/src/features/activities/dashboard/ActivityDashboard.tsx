@@ -19,7 +19,7 @@ function ActivityDashBoard() {
         fetchActivities();
     }, [])
 
-    if (fetching) return <LoadingComponent content='Loading app' />
+    if (fetching) return <LoadingComponent content='Loading...' />
 
     return (
         <Grid>
@@ -27,12 +27,12 @@ function ActivityDashBoard() {
                 <ActivityList />
             </Grid.Column>
             <Grid.Column width='6'>
-                {selectedActivity && !editMode &&
+                {/* {selectedActivity && !editMode &&
                     <ActivityDetails
                     />}
                 {editMode && (
                     <ActivityForm />
-                )}
+                )} */}
             </Grid.Column>
         </Grid>
     )

@@ -13,11 +13,14 @@ const initialState: ActivitiesState = {
 
 const activitiesReducer = (state: ActivitiesState = initialState, action: Action) => {
     switch (action.type) {
+        case ActionType.FETCH_ACTIVITY_PENDING:
+            return { ...state, fetching: true }
+        case ActionType.FETCH_ACTIVITY_SUCCESS:
+            return { ...state, activities: [...state.activities, action.payload], fetching: false }
+        case ActionType.FETCH_ACTIVITY_ERROR:
+            return { ...state, fetching: false, error: action.payload }
         case ActionType.FETCH_ACTIVITIES_PENDING:
-            return {
-                ...state,
-                fetching: true
-            }
+            return { ...state, fetching: true }
         case ActionType.FETCH_ACTIVITIES_SUCCESS:
             return {
                 ...state,

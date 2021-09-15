@@ -4,6 +4,7 @@ import { Action } from "../actions/index";
 import { Activity } from "../../models/activity";
 import agent from "../../api/agent";
 import { v4 as uuid } from 'uuid';
+import { State } from "../../store";
 
 export const selectActivity = (id: string) => {
     return (dispatch: Dispatch<Action>) => {
@@ -30,9 +31,9 @@ export const openEditMode = (id?: string) => {
                 payload: id
             })
         } else
-        dispatch({
-            type: ActionType.CANCEL_SELECT_ACTIVITY,
-        });
+            dispatch({
+                type: ActionType.CANCEL_SELECT_ACTIVITY,
+            });
         dispatch({
             type: ActionType.OPEN_EDIT_MODE,
         })
@@ -70,6 +71,35 @@ export const fetchActivitiesError = (error: string) => {
             type: ActionType.FETCH_ACTIVITIES_ERROR,
             payload: error
         })
+    }
+}
+
+export const fetchActivityById = (id: string) => {
+    return async (dispatch: Dispatch<Action>, getState: () => State) => {
+        let activity = getState().activities.activities.find(a => a.id === id);
+        if (activity) {
+            dispatch({
+                type: ActionType.SELECT_ACTIVITY,
+                payload: id
+            });
+        } else {
+            dispatch({
+                type: ActionType.FETCH_ACTIVITY_PENDING
+            });
+            try {
+                activity = await agent.Activities.details(id);
+                activity.date = activity.date.split('T')[0];
+                dispatch({
+                    type: ActionType.FETCH_ACTIVITY_SUCCESS,
+                    payload: activity
+                });
+            } catch (error) {
+                dispatch({
+                    type: ActionType.FETCH_ACTIVITY_ERROR,
+                    payload: "Error"
+                });
+            }
+        }
     }
 }
 

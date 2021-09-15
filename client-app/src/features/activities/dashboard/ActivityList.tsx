@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { actionCreators, State } from '../../../app/store';
@@ -29,7 +30,7 @@ function ActivityList() {
                                 <div>{activity.city}, {activity.venue}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => selectActivity(activity.id)} floated='right' color='blue' content='View' />
+                                <Button as={Link} to={`/activities/${activity.id}`} floated='right' color='blue' content='View' />
                                 <Button
                                     name={activity.id}
                                     loading={submitting && target === activity.id}

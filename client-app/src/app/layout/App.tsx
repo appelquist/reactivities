@@ -5,6 +5,7 @@ import ActivityDashBoard from '../../features/activities/dashboard/ActivityDashb
 import { Route } from 'react-router';
 import HomePage from '../../features/home/HomePage';
 import ActivityForm from '../../features/activities/form/ActivityForm';
+import ActivityDetails from '../../features/activities/details/ActivityDetails';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <NavBar />
       <Container style={{ marginTop: "7rem" }}>
         <Route exact path="/" component={HomePage} />
-        <Route path="/activities" component={ActivityDashBoard} />
+        <Route exact path="/activities" component={ActivityDashBoard} />
+        <Route path="/activities/:id" render={(routeProps) => <ActivityDetails id={routeProps.match.params.id} /> } />
         <Route path="/createActivity" component={ActivityForm} />
       </Container>
     </>
