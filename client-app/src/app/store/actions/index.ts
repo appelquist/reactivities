@@ -10,14 +10,6 @@ interface CancelSelectActivityAction {
     type: ActionType.CANCEL_SELECT_ACTIVITY;
 }
 
-interface OpenEditModeAction {
-    type: ActionType.OPEN_EDIT_MODE;
-}
-
-interface CloseEditModeAction {
-    type: ActionType.CLOSE_EDIT_MODE;
-}
-
 interface FetchActivityPendingAction {
     type: ActionType.FETCH_ACTIVITY_PENDING;
 }
@@ -90,7 +82,7 @@ interface DeleteActivityErrorAction {
 
 
 export type Action = SelectActivtyAction | CancelSelectActivityAction |
-    OpenEditModeAction | CloseEditModeAction | FetchActivitiesSuccessAction | FetchActivitiesPendingAction |
+     FetchActivitiesSuccessAction | FetchActivitiesPendingAction |
     FetchActivitiesErrorAction | CreateActivityPendingAction | CreateActivitySuccessAction |
     CreateActivityErrorAction | EditActivityPendingAction | EditActivitySuccessAction | EditActivityErrorAction |
     DeleteActivityPendingAction | DeleteActivitySuccessAction | DeleteActivityErrorAction | FetchActivityPendingAction |

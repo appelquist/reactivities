@@ -9,7 +9,7 @@ function ActivityList() {
     const [target, setTarget] = useState('');
 
     const dispatch = useDispatch();
-    const { selectActivity, deleteActivity } = bindActionCreators(actionCreators, dispatch);
+    const { deleteActivity } = bindActionCreators(actionCreators, dispatch);
     const { submitting, activities } = useSelector((state: State) => state.activities);
 
     function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {

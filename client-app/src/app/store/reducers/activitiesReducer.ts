@@ -5,10 +5,9 @@ import { Action } from "../actions";
 
 const initialState: ActivitiesState = {
     activities: [],
-    selectedActivity: undefined,
-    fetching: true,
+    activity: undefined,
+    fetching: false,
     submitting: false,
-    editMode: false,
 }
 
 const activitiesReducer = (state: ActivitiesState = initialState, action: Action) => {
@@ -16,7 +15,7 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
         case ActionType.FETCH_ACTIVITY_PENDING:
             return { ...state, fetching: true }
         case ActionType.FETCH_ACTIVITY_SUCCESS:
-            return { ...state, activities: [...state.activities, action.payload], fetching: false }
+            return { ...state, activities: [...state.activities, action.payload], fetching: false, activity: action.payload }
         case ActionType.FETCH_ACTIVITY_ERROR:
             return { ...state, fetching: false, error: action.payload }
         case ActionType.FETCH_ACTIVITIES_PENDING:
@@ -36,11 +35,10 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
         case ActionType.SELECT_ACTIVITY:
             return {
                 ...state,
-                selectedActivity: state.activities.find(a => a.id === action.payload),
-                editMode: false
+                activity: state.activities.find(a => a.id === action.payload),
             }
         case ActionType.CANCEL_SELECT_ACTIVITY:
-            return { ...state, selectedActivity: undefined }
+            return { ...state, activity: undefined }
         case ActionType.CREATE_ACTIVITY_PENDING:
             return { ...state, submitting: true }
         case ActionType.CREATE_ACTIVITY_SUCCESS:
@@ -50,8 +48,7 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
                     return +new Date(b.date) - +new Date(a.date)
                 }),
                 submitting: false,
-                selectedActivity: action.payload,
-                editMode: false
+                activity: action.payload,
             }
         case ActionType.CREATE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
@@ -64,8 +61,7 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
                     return +new Date(b.date) - +new Date(a.date)
                 }),
                 submitting: false,
-                editMode: false,
-                selectedActivity: action.payload,
+                activity: action.payload,
             }
         case ActionType.EDIT_ACTIVITY_ERROR:
             return { ...state, submitting: false }
@@ -76,14 +72,9 @@ const activitiesReducer = (state: ActivitiesState = initialState, action: Action
                 ...state,
                 activities: state.activities.filter(a => a.id !== action.payload),
                 submitting: false,
-                selectedActivity: state.selectedActivity?.id === action.payload ? undefined : state.selectedActivity
             }
         case ActionType.DELETE_ACTIVITY_ERROR:
             return { ...state, submitting: false }
-        case ActionType.OPEN_EDIT_MODE:
-            return { ...state, editMode: true }
-        case ActionType.CLOSE_EDIT_MODE:
-            return { ...state, editMode: false }
         default: {
             return state;
         }

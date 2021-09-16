@@ -7,10 +7,10 @@ import { actionCreators, State } from '../../../app/store';
 function ActivityForm() {
 
     const dispatch = useDispatch();
-    const { closeEditMode, createActivity, updateActivity } = bindActionCreators(actionCreators, dispatch); 
-    const { selectedActivity, submitting } = useSelector((state: State) => state.activities);
+    const { createActivity, updateActivity } = bindActionCreators(actionCreators, dispatch); 
+    const { activity, submitting } = useSelector((state: State) => state.activities);
 
-    const initialState = selectedActivity ?? {
+    const initialState = activity ?? {
         id: '',
         title: '',
         category: '',
@@ -20,32 +20,32 @@ function ActivityForm() {
         venue: ''
     }
 
-    const [activity, setActivity] = useState(initialState);
+    const [formActivity, setFormActivity] = useState(initialState);
 
     function handleSubmit() {
-        if (activity.id === '') {
-            createActivity(activity);
+        if (formActivity.id === '') {
+            createActivity(formActivity);
         } else {
-            updateActivity(activity);
+            updateActivity(formActivity);
         }
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
         const { name, value } = event.target;
-        setActivity({...activity, [name]: value});
+        setFormActivity({...formActivity, [name]: value});
     }
 
     return (
         <Segment clearing>
             <Form onSubmit={handleSubmit} autoComplete="off">
-                <Form.Input placeholder='Title' value={activity.title} name='title' onChange={handleInputChange} />
-                <Form.TextArea placeholder='Description' value={activity.description} name='description' onChange={handleInputChange} />
-                <Form.Input placeholder='Category' value={activity.category} name='category' onChange={handleInputChange} />
-                <Form.Input type='date' placeholder='Date' value={activity.date} name='date' onChange={handleInputChange} />
-                <Form.Input placeholder='City' value={activity.city} name='city' onChange={handleInputChange} />
-                <Form.Input placeholder='Venue' value={activity.venue} name='venue' onChange={handleInputChange} />
+                <Form.Input placeholder='Title' value={formActivity.title} name='title' onChange={handleInputChange} />
+                <Form.TextArea placeholder='Description' value={formActivity.description} name='description' onChange={handleInputChange} />
+                <Form.Input placeholder='Category' value={formActivity.category} name='category' onChange={handleInputChange} />
+                <Form.Input type='date' placeholder='Date' value={formActivity.date} name='date' onChange={handleInputChange} />
+                <Form.Input placeholder='City' value={formActivity.city} name='city' onChange={handleInputChange} />
+                <Form.Input placeholder='Venue' value={formActivity.venue} name='venue' onChange={handleInputChange} />
                 <Button loading={submitting} floated='right' positive type='submit' content='Submit' onChange={handleInputChange} />
-                <Button onClick={closeEditMode} floated='right' type='button' content='Cancel' onChange={handleInputChange} />
+                <Button floated='right' type='button' content='Cancel' onChange={handleInputChange} />
             </Form>
         </Segment>
     );

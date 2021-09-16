@@ -4,19 +4,16 @@ import { bindActionCreators } from 'redux';
 import { Grid } from 'semantic-ui-react'
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { actionCreators, State } from '../../../app/store';
-import ActivityDetails from '../details/ActivityDetails';
-import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
 
 function ActivityDashBoard() {
 
     const dispatch = useDispatch();
     const { fetchActivities } = bindActionCreators(actionCreators, dispatch);
-    const { selectedActivity } = useSelector((state: State) => state.activities);
-    const { editMode, fetching } = useSelector((state: State) => state.activities);
+    const { fetching, activities } = useSelector((state: State) => state.activities);
 
     useEffect(() => {
-        fetchActivities();
+        if (activities.length === 0) fetchActivities();
     }, [])
 
     if (fetching) return <LoadingComponent content='Loading...' />
@@ -27,12 +24,7 @@ function ActivityDashBoard() {
                 <ActivityList />
             </Grid.Column>
             <Grid.Column width='6'>
-                {/* {selectedActivity && !editMode &&
-                    <ActivityDetails
-                    />}
-                {editMode && (
-                    <ActivityForm />
-                )} */}
+                <h2>Activity filters</h2>
             </Grid.Column>
         </Grid>
     )

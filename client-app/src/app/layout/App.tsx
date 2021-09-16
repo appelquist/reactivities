@@ -14,7 +14,7 @@ function App() {
       <Container style={{ marginTop: "7rem" }}>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/activities" component={ActivityDashBoard} />
-        <Route path="/activities/:id" render={(routeProps) => <ActivityDetails id={routeProps.match.params.id} /> } />
+        <Route path="/activities/:id" component={ActivityDetails} />
         <Route path="/createActivity" component={ActivityForm} />
       </Container>
     </>

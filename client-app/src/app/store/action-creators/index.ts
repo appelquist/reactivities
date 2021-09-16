@@ -15,39 +15,6 @@ export const selectActivity = (id: string) => {
     }
 }
 
-export const cancelSelectActivity = () => {
-    return (dispatch: Dispatch<Action>) => {
-        dispatch({
-            type: ActionType.CANCEL_SELECT_ACTIVITY
-        });
-    }
-}
-
-export const openEditMode = (id?: string) => {
-    return (dispatch: Dispatch<Action>) => {
-        if (id) {
-            dispatch({
-                type: ActionType.SELECT_ACTIVITY,
-                payload: id
-            })
-        } else
-            dispatch({
-                type: ActionType.CANCEL_SELECT_ACTIVITY,
-            });
-        dispatch({
-            type: ActionType.OPEN_EDIT_MODE,
-        })
-    }
-}
-
-export const closeEditMode = () => {
-    return (dispatch: Dispatch<Action>) => {
-        dispatch({
-            type: ActionType.CLOSE_EDIT_MODE
-        });
-    }
-}
-
 export const fetchActivitiesPending = () => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
@@ -76,7 +43,7 @@ export const fetchActivitiesError = (error: string) => {
 
 export const fetchActivityById = (id: string) => {
     return async (dispatch: Dispatch<Action>, getState: () => State) => {
-        let activity = getState().activities.activities.find(a => a.id === id);
+        let activity = getState().activities.activities.find((a: Activity) => a.id === id);
         if (activity) {
             dispatch({
                 type: ActionType.SELECT_ACTIVITY,
