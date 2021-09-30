@@ -5,7 +5,6 @@ import { Button, Form, Segment } from 'semantic-ui-react';
 import { actionCreators, State } from '../../../app/store';
 
 function ActivityForm() {
-
     const dispatch = useDispatch();
     const { createActivity, updateActivity } = bindActionCreators(actionCreators, dispatch); 
     const { activity, submitting } = useSelector((state: State) => state.activities);
