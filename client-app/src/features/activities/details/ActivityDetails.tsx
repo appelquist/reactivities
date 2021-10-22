@@ -32,7 +32,7 @@ function ActivityDetails() {
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths='2'>
-                    <Button basic color='blue' content="Edit" />
+                    <Button as={Link} to={`/manage/${activity.id}`} basic color='blue' content="Edit" />
                     <Button as={Link} to='/activities' basic color='grey' content="Cancel" />
                 </Button.Group>
             </Card.Content>

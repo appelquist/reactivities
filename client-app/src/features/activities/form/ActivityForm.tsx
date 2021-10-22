@@ -1,15 +1,18 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { Button, Form, Segment } from 'semantic-ui-react';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { actionCreators, State } from '../../../app/store';
 
 function ActivityForm() {
     const dispatch = useDispatch();
-    const { createActivity, updateActivity } = bindActionCreators(actionCreators, dispatch); 
-    const { activity, submitting } = useSelector((state: State) => state.activities);
+    const { createActivity, updateActivity, fetchActivityById } = bindActionCreators(actionCreators, dispatch); 
+    const { activity, submitting, fetching } = useSelector((state: State) => state.activities);
+    const {id} = useParams<{id: string}>();
 
-    const initialState = activity ?? {
+    const [formActivity, setFormActivity] = useState({
         id: '',
         title: '',
         category: '',
@@ -17,9 +20,15 @@ function ActivityForm() {
         date: '',
         city: '',
         venue: ''
-    }
+    });
 
-    const [formActivity, setFormActivity] = useState(initialState);
+    useEffect(() => {
+        console.log(id);
+        if (id) {
+            fetchActivityById(id);
+            setFormActivity(activity!);
+        }
+    }, [id]);
 
     function handleSubmit() {
         if (formActivity.id === '') {
@@ -33,6 +42,8 @@ function ActivityForm() {
         const { name, value } = event.target;
         setFormActivity({...formActivity, [name]: value});
     }
+
+    if (fetching) return <LoadingComponent content='Loading activity...' />;
 
     return (
         <Segment clearing>
