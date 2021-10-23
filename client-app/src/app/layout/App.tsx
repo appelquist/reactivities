@@ -11,13 +11,20 @@ function App() {
   const location = useLocation();
   return (
     <>
-      <NavBar />
-      <Container style={{ marginTop: "7rem" }}>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/activities" component={ActivityDashBoard} />
-        <Route path="/activities/:id" component={ActivityDetails} />
-        <Route key={location.key} path={["/createActivity", "/manage/:id"]} component={ActivityForm} />
-      </Container>
+      <Route exact path="/" component={HomePage} />
+      <Route
+        path={'/(.+)'}
+        render={() => (
+          <>
+            <NavBar />
+            <Container style={{ marginTop: "7rem" }}>
+              <Route exact path="/activities" component={ActivityDashBoard} />
+              <Route path="/activities/:id" component={ActivityDetails} />
+              <Route key={location.key} path={["/createActivity", "/manage/:id"]} component={ActivityForm} />
+            </Container>
+          </>
+        )}
+      />
     </>
   );
 }
