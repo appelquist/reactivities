@@ -6,6 +6,7 @@ import { Button, Form, Segment } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { actionCreators, State } from '../../../app/store';
 import { v4 as uuid } from 'uuid';
+import { Link } from 'react-router-dom';
 
 function ActivityForm() {
     const history = useHistory();
@@ -64,7 +65,7 @@ function ActivityForm() {
                 <Form.Input placeholder='City' value={formActivity.city} name='city' onChange={handleInputChange} />
                 <Form.Input placeholder='Venue' value={formActivity.venue} name='venue' onChange={handleInputChange} />
                 <Button loading={submitting} floated='right' positive type='submit' content='Submit' onChange={handleInputChange} />
-                <Button floated='right' type='button' content='Cancel' onChange={handleInputChange} />
+                <Button as={Link} to='/activities' floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     );

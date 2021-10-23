@@ -13,7 +13,7 @@ function ActivityDashBoard() {
     const { fetching, activities } = useSelector((state: State) => state.activities);
 
     useEffect(() => {
-        if (activities.length === 0) fetchActivities();
+        if (activities.length <= 0) fetchActivities();
     }, [])
 
     if (fetching) return <LoadingComponent content='Loading...' />
