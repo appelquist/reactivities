@@ -1,12 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { actionCreators, State } from '../../../app/store';
+import { v4 as uuid } from 'uuid';
 
 function ActivityForm() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { createActivity, updateActivity, fetchActivityById } = bindActionCreators(actionCreators, dispatch); 
     const { activity, submitting, fetching } = useSelector((state: State) => state.activities);
@@ -30,11 +32,18 @@ function ActivityForm() {
         }
     }, [id]);
 
-    function handleSubmit() {
-        if (formActivity.id === '') {
-            createActivity(formActivity);
+    async function handleSubmit() {
+        if (formActivity.id.length === 0) {
+            let newActivity = {
+                ...formActivity,
+                id: uuid(),
+            }
+            await createActivity(newActivity);
+            history.push(`/activities/${newActivity.id}`);
+
         } else {
-            updateActivity(formActivity);
+            await updateActivity(formActivity);
+            history.push(`/activities/${formActivity.id}`);
         }
     }
 

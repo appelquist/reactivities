@@ -3,7 +3,6 @@ import { Dispatch } from "redux";
 import { Action } from "../actions/index";
 import { Activity } from "../../models/activity";
 import agent from "../../api/agent";
-import { v4 as uuid } from 'uuid';
 import { State } from "../../store";
 
 export const selectActivity = (id: string) => {
@@ -102,7 +101,6 @@ export const createActivity = (activity: Activity) => {
         dispatch({
             type: ActionType.CREATE_ACTIVITY_PENDING,
         });
-        activity.id = uuid();
         try {
             await agent.Activities.create(activity)
             dispatch({
