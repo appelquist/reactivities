@@ -7,7 +7,6 @@ import { actionCreators, State } from '../../../app/store';
 import ActivityList from './ActivityList';
 
 function ActivityDashBoard() {
-
     const dispatch = useDispatch();
     const { fetchActivities } = bindActionCreators(actionCreators, dispatch);
     const { fetching, activities } = useSelector((state: State) => state.activities);

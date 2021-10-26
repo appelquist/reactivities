@@ -1,20 +1,42 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux';
-import { Item, Segment } from 'semantic-ui-react';
+import { createSelector } from 'reselect';
+import { Header, Item, Segment } from 'semantic-ui-react';
+import { Activity } from '../../../app/models/activity';
 import { State } from '../../../app/store';
 import ActivityListItem from './ActivityListItem';
 
+const selectGroupedActivitiesByDate = createSelector(
+    (state: State) => state.activities,
+    (activities) => Object.entries(
+        activities.activities.reduce((activities, activity) => {
+            const date = activity.date;
+            activities[date] = activities[date] ? [...activities[date], activity] : [activity]
+            return activities;
+        }, {} as { [key: string]: Activity[] })
+    )
+)
+
 function ActivityList() {
-    const { activities } = useSelector((state: State) => state.activities);
+    const groupedActivitiesByDate = useSelector(selectGroupedActivitiesByDate);
 
     return (
-        <Segment>
-            <Item.Group divided>
-                {activities.map(activity => (
-                    <ActivityListItem key={activity.id} activity={activity} />
-                ))}
-            </Item.Group>
-        </Segment>
+        <>
+            {groupedActivitiesByDate.map(([group, activities]) => (
+                <Fragment key={group}>
+                    <Header sub color='teal'>
+                        {group}
+                    </Header>
+                    <Segment>
+                        <Item.Group divided>
+                            {activities.map(activity => (
+                                <ActivityListItem key={activity.id} activity={activity} />
+                            ))}
+                        </Item.Group>
+                    </Segment>
+                </Fragment>
+            ))}
+        </>
     );
 }
 
